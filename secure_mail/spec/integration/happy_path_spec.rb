@@ -10,7 +10,6 @@ describe "Integration" do
     double 'message', from: 'from', to: 'to', body: "Unencrypted message"
   end
 
-
   before :all do
     load 'db/connection.rb'
   end

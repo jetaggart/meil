@@ -5,25 +5,33 @@ class SecureMail
     end
 
     def encrypted_body body
-      # Here we'd have some kind of case
-      # statement dependent on how the message
-      # should be encrypted based on settings
-      # read from the persisted user
       encryption.encrypt body
     end
 
     private
 
     def encryption
-      receiver.encryption
+      @encryption ||= Encryption.new persisted_user.pgp_public_key
     end
 
-    def receiver
-      @receiver ||= User.new(persisted)
+    def persisted_user
+      @persisted_user ||= @user_dao.user_for @email_address
     end
 
-    def persisted
-      @persisted ||= @user_dao.user_for @email_address
+    class Encryption
+      def initialize key
+        @key = key
+      end
+
+      #nonsense encryption to prove concept
+      def encrypt body
+        <<-MESSAGE.gsub(/^\s*/, '')
+      ===BEGIN ENCRYPTED MESSAGE===
+        #{body}
+      ===END ENCRYPTED MESSAGE===
+        MESSAGE
+      end
     end
+
   end
 end

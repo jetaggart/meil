@@ -23,5 +23,9 @@ class SecureMail
 
     @transport.deliver params
   end
+
+  private
+
+  attr_reader :message_receiver, :transport
 end
 
