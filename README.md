@@ -1,10 +1,31 @@
+Introduction
+============
+
+Build a simple secure means of communication on top of open standards. Initially,
+we're focusing on private messaging (e.g. email) and social status updates (e.g.
+group emails/pump.io).
+
+Initially email will be the base protocol, with PGP encryption as a
+built in standard. A message will initiate a path to upgrade further
+communication to be encrypted.
+But all these assumptions should be challengable and upgradable.
+
+Be aware that with the initial implementation it will be impossible to
+keep secret exactly who you are communicating with, but this is a problem
+with email itself.
+
+We believe nobody should be able to read the contents of private communication.
+
+
 Principles
 ____________
 
 * Encryption as default
 * Swappable encryption
 * Upgrade plan for clients (backwards compatibility vs security risk etc)
-* Clients have list of supported encryption algorithms, that gradually/rapidly get deprecated, in a way which tries to move users through the upgrade path simply. E.g. automatic updates à la Chrome etc.
+* Clients have list of supported encryption algorithms, that gradually/rapidly get deprecated,
+  in a way which tries to move users through the upgrade path simply.
+  E.g. automatic updates à la Chrome etc.
 * Distributed
 * Everything is GPL
 * Everything is open codewise
