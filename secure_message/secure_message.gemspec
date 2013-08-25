@@ -20,6 +20,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency  "activesupport", "~> 3.2.13"
   spec.add_dependency  "activerecord",  "~> 3.2.13"
   spec.add_dependency  "virtus",        "~> 0.5.5"
+  spec.add_dependency  "mail",          "~> 2.4.4"
 
   spec.add_development_dependency "debugger", "~> 1.6.0"
   spec.add_development_dependency "sqlite3",  "~> 1.3.7"
