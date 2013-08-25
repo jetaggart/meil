@@ -4,7 +4,12 @@ describe "Integration" do
   let(:dao) { SecureMail::Dao.new persistence }
   let(:persistence) { SecureMail::UserPersistence }
   let(:message_receiver) { SecureMail::MessageReceiver.new dao, "mark@example.com" }
-  let(:transport) { double 'transport' }
+  let(:transport) { double 'transport', deliver: true }
+
+  let(:message) do 
+    double 'message', from: 'from', to: 'to', body: "Unencrypted message"
+  end
+
 
   before :all do
     load 'db/connection.rb'
@@ -15,8 +20,10 @@ describe "Integration" do
   end
 
   it do
-    SecureMail.deliver(message_receiver, transport)
+    SecureMail.deliver(message_receiver, transport, message)
 
-    transport.should have_received(:send).with "Encrypted message"
+    expected = {:from=>"from", :to=>"to",
+                :body=>"===BEGIN ENCRYPTED MESSAGE===\nUnencrypted message\n===END ENCRYPTED MESSAGE===\n"}
+    transport.should have_received(:deliver).with expected
   end
 end

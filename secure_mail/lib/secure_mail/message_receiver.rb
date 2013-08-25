@@ -9,18 +9,13 @@ class SecureMail
       # statement dependent on how the message
       # should be encrypted based on settings
       # read from the persisted user
-      encrypt persisted.pgp_key, body
+      encryption.encrypt body
     end
 
     private
 
-    #nonsense encryption to prove concept
-    def encrypt key, body
-      <<-MESSAGE.gsub(/^\s*/, '')
-      ===BEGIN ENCRYPTED MESSAGE===
-      #{body}
-      ===END ENCRYPTED MESSAGE===
-      MESSAGE
+    def encryption
+      receiver.encryption
     end
 
     def receiver

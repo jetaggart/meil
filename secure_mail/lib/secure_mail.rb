@@ -17,13 +17,11 @@ class SecureMail
   end
 
   def deliver message
-    encrypted = @message_receiver.encrypted_body
+    encrypted = @message_receiver.encrypted_body(message.body)
 
-    @transport.send(
-      from: message.from,
-      to:   message.to,
-      body: encrypted
-    )
+    params = {from: message.from, to:   message.to, body: encrypted}
+
+    @transport.deliver params
   end
 end
 
