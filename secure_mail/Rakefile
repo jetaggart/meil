@@ -1,1 +1,15 @@
 require "bundler/gem_tasks"
+require 'active_record'
+require 'logger'
+
+desc "Migrate the database"
+task :migrate => :environment do
+  ActiveRecord::Migrator.migrate('db/migrate', ENV["VERSION"] ? ENV["VERSION"].to_i : nil )
+end
+
+desc "Connect to the db and setup logging"
+task :environment do
+  load 'db/connection.rb'
+  ActiveRecord::Base.logger = Logger.new(File.open('db/database.log', 'a'))
+end
+
