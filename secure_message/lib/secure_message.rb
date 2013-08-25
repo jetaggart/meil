@@ -3,7 +3,7 @@ require 'active_record'
 require "virtus"
 
 require "secure_message/version"
-require "secure_message/message_receiver"
+require "secure_message/receiver"
 require "secure_message/dao"
 
 class SecureMessage
@@ -40,7 +40,7 @@ class SecureMessage
   end
 
   def recipient
-    @recipient ||= MessageReceiver.new persisted_user: persisted_user
+    @recipient ||= Receiver.new persisted_user: persisted_user
   end
 
   def persisted_user
