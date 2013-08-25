@@ -6,7 +6,7 @@ require "secure_mail/version"
 require "secure_mail/message_receiver"
 require "secure_mail/dao"
 
-class SecureMail
+class SecureMessage
   include Virtus
 
   class EmailTransport
@@ -18,20 +18,13 @@ class SecureMail
   attribute :message
   attribute :transport
 
+  def self.deliver params
+    params.fetch :message #ensure we have a message
 
-  def self.deliver message, dao_klass = nil, transport_klass = nil
-    dao_klass       ||= SecureMail::Dao
-    transport_klass ||= SecureMail::EmailTransport
+    params[:transport] ||= SecureMessage::EmailTransport.new
+    params[:dao]       ||= SecureMessage::Dao.new
 
-    new(message, dao_klass, transport_klass).deliver
-  end
-
-  def initialize message, dao_klass, transport_klass
-    super(
-      dao: dao_klass.new,
-      transport: transport_klass.new,
-      message: message
-    )
+    new(params).deliver
   end
 
   def deliver
@@ -51,6 +44,7 @@ class SecureMail
   end
 
   def persisted_user
+    debugger
     @persisted_user ||= dao.user_for(message.to)
   end
 end

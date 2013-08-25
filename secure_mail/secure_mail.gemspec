@@ -5,7 +5,7 @@ require 'secure_mail/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "secure_mail"
-  spec.version       = SecureMail::VERSION
+  spec.version       = SecureMessage::VERSION
   spec.authors       = ["Jeff Taggart", "Mark Burns"]
   spec.email         = ["jeff@jetaggart.com", "markthedeveloper@gmail.com"]
   spec.homepage      = "http://meil.io"

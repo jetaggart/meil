@@ -9,7 +9,8 @@ describe "Integration" do
   end
 
   let(:recipient_email) { "mark@example.com" }
-  let(:transport) { SecureMail::EmailTransport }
+  let(:transport) { double 'transport', deliver: true }
+
   let(:encrypted_body) do 
     "===BEGIN ENCRYPTED MESSAGE===\nUnencrypted message\n===END ENCRYPTED MESSAGE===\n"
   end
@@ -18,12 +19,11 @@ describe "Integration" do
   before :all do
     load 'db/connection.rb'
 
-    SecureMail::UserPersistence.destroy_all
+    SecureMessage::UserPersistence.destroy_all
   end
 
   before do
-    SecureMail::EmailTransport.any_instance.stub(:deliver)
-    SecureMail::UserPersistence.create(email: recipient_email,
+    SecureMessage::UserPersistence.create(email: recipient_email,
                                        pgp_public_key: "some key")
   end
 
@@ -33,7 +33,7 @@ describe "Integration" do
                 body: encrypted_body}
 
 
-    transport.any_instance.should_receive(:deliver).with expected
-    SecureMail.deliver message
+    transport.should_receive(:deliver).with expected
+    SecureMessage.deliver message: message, transport: transport
   end
 end

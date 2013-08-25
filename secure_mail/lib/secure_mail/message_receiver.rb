@@ -1,4 +1,4 @@
-class SecureMail
+class SecureMessage
   class MessageReceiver
     include Virtus
     attribute :persisted_user

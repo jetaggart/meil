@@ -1,9 +1,9 @@
-class SecureMail::UserPersistence < ActiveRecord::Base
+class SecureMessage::UserPersistence < ActiveRecord::Base
 end
 
-class SecureMail::Dao
+class SecureMessage::Dao
   def initialize persistence=nil
-    @persistence = persistence || SecureMail::UserPersistence
+    @persistence = persistence || SecureMessage::UserPersistence
   end
 
   def user_for email
