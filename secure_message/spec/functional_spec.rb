@@ -9,7 +9,7 @@ describe "Functional" do
   end
 
   let(:recipient_email) { "mark@example.com" }
-  let(:transport) { SecureMessage::EmailTransport.new }
+  let(:transport) { double 'transport', deliver: true }
 
   let(:encrypted_body) do 
     "===BEGIN ENCRYPTED MESSAGE===\nUnencrypted message\n===END ENCRYPTED MESSAGE===\n"
@@ -33,7 +33,7 @@ describe "Functional" do
                 body: encrypted_body}
 
 
-    Mail::Message.any_instance.should_receive(:deliver!)
+    transport.should_receive(:deliver).with expected
     SecureMessage.deliver message: message, transport: transport
   end
 end
