@@ -23,8 +23,8 @@ describe "Integration" do
   end
 
   before do
-    SecureMessage::UserPersistence.create(email: recipient_email,
-                                       pgp_public_key: "some key")
+    SecureMessage::UserPersistence.
+      create({email: recipient_email, pgp_public_key: "some key"})
   end
 
   it do
