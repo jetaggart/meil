@@ -5,10 +5,21 @@ ____________
 * Swappable encryption
 * Upgrade plan for clients (backwards compatibility vs security risk etc)
 * Clients have list of supported encryption algorithms, that gradually/rapidly get deprecated, in a way which tries to move users through the upgrade path simply. E.g. automatic updates à la Chrome etc.
+* Distributed
+* Everything is GPL
+* Everything is open codewise
+* Everything can be encrypted data-wise
+* We are open in order for you to see that we are respecting your privacy
+* Different implementations can easily talk to each other
+* We need to make it impossible for one single group/org to own it. There must
+  always be the ability for someone do do it better and allow people to switch.
+
+
 
 Problems
 ____________
-* Main providers of software clients pressured by governments to support or enforce weak algorithms.
+* Main providers of software clients pressured by governments to support or
+  enforce weak algorithms.
 * Someone's network would be the weakest link in the chain. Particularly, when that broadcasts all messages of a certain type to all interested parties.
   * E.g. nefarious agent sets up email account innocent-friend@not-the-nsa.gov.us, finds picture of a family member of "Mr Snowdonia", befriends Edwin's grandmother, "Mrs Snowdonia", who's using broken encryption and overly familiar privacy settings - allow readings of all Edwin's travel details around Moscovia.
 
