@@ -1,10 +1,10 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'secure_mail/version'
+require 'secure_message/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "secure_mail"
+  spec.name          = "secure_message"
   spec.version       = SecureMessage::VERSION
   spec.authors       = ["Jeff Taggart", "Mark Burns"]
   spec.email         = ["jeff@jetaggart.com", "markthedeveloper@gmail.com"]

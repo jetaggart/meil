@@ -2,9 +2,9 @@ require 'active_support/core_ext/module/delegation'
 require 'active_record'
 require "virtus"
 
-require "secure_mail/version"
-require "secure_mail/message_receiver"
-require "secure_mail/dao"
+require "secure_message/version"
+require "secure_message/message_receiver"
+require "secure_message/dao"
 
 class SecureMessage
   include Virtus
@@ -44,7 +44,6 @@ class SecureMessage
   end
 
   def persisted_user
-    debugger
     @persisted_user ||= dao.user_for(message.to)
   end
 end
