@@ -1,45 +1,47 @@
-module SecureMessage::Config
-  SUPPORTED_TYPES = [:active_record]
-  SecureMessageException              = Class.new StandardError
-  MissingConfigException              = Class.new SecureMessageException
-  UnsupportedPersistenceTypeException = Class.new SecureMessageException
+module SecureMessage
+  module Config
+    SUPPORTED_TYPES = [:active_record]
+    SecureMessageException              = Class.new StandardError
+    MissingConfigException              = Class.new SecureMessageException
+    UnsupportedPersistenceTypeException = Class.new SecureMessageException
 
-  @@persistence = nil
+    @@persistence = nil
 
-  def persistence
-    @@persistence || missing_config!
-  end
-
-  def set_persistence type, force_reload=false
-    @@persistence = type 
-    check_config!
-
-    file = "secure_message/adapters/#{type}.rb"
-
-    force_reload ? load(file) : require(file)
-  end
-
-  def check_config!
-    if persistence
-      unsupported_type!(@@persistence) unless supported?
+    def persistence
+      @@persistence || missing_config!
     end
-  end
 
-  private
+    def set_persistence type, force_reload=false
+      @@persistence = type 
+      check_config!
 
-  def supported?
-    SUPPORTED_TYPES.include?(@@persistence)
-  end
+      file = "secure_message/adapters/#{type}.rb"
 
-  def missing_config!
-    raise MissingConfigException.new <<-MESSAGE.gsub(/^\s*/,"")
+      force_reload ? load(file) : require(file)
+    end
+
+    def check_config!
+      if persistence
+        unsupported_type!(@@persistence) unless supported?
+      end
+    end
+
+    private
+
+    def supported?
+      SUPPORTED_TYPES.include?(@@persistence)
+    end
+
+    def missing_config!
+      raise MissingConfigException.new <<-MESSAGE.gsub(/^\s*/,"")
       Need to set a value for SecureMessage.persistence
       Supported types are: #{SUPPORTED_TYPES.join}
-    MESSAGE
-  end
+      MESSAGE
+    end
 
-  def unsupported_type! type
-    message = "Unsupported persistence type: #{type}"
-    raise UnsupportedPersistenceTypeException.new(message)
+    def unsupported_type! type
+      message = "Unsupported persistence type: #{type}"
+      raise UnsupportedPersistenceTypeException.new(message)
+    end
   end
 end

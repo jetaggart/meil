@@ -13,5 +13,4 @@ module SecureMessage
       MESSAGE
     end
   end
-
 end

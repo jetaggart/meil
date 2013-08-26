@@ -2,9 +2,8 @@ require 'active_support/core_ext/module/delegation'
 require "virtus"
 require "mail"
 
-Dir.glob("./lib/secure_message/*.rb").each{|f| require f }
-
 module SecureMessage
+  Dir.glob("./lib/secure_message/*.rb").each{|f| require f }
   extend SecureMessage::Config
 
   def self.deliver params
