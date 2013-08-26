@@ -1,12 +1,12 @@
 module SecureMessage
   class MessageSender
     def initialize message, options
-      @dao        = options[:dao]       || SecureMessage::ActiveRecord::Dao.new
-      @transport  = options[:transport] || SecureMessage::EmailTransport.new
+      @dao        = options[:dao]       || ActiveRecord::Dao.new
+      @transport  = options[:transport] || EmailTransport.new
 
-      encryptor  =recipient(message.to)
+      encryptor  = recipient(message.to)
 
-      @message = SecureMessage::Message.new(message, encryptor)
+      @message = EncryptedMessage.new(message, encryptor)
     end
 
     def deliver

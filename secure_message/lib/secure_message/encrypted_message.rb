@@ -1,5 +1,5 @@
 module SecureMessage
-  class Message
+  class EncryptedMessage
     def initialize message, encryptor
       @message, @encryptor = message, encryptor
       validate_message
