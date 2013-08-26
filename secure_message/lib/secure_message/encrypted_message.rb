@@ -1,26 +1,31 @@
 module SecureMessage
   class EncryptedMessage
-    def initialize message, encryptor
-      @message, @encryptor = message, encryptor
-      validate_message
+    FIELDS = [:subject, :to, :from, :body]
+    delegate :subject, :to, :from , to: :unencrypted
+
+    def initialize unencrypted, encryptor
+      @unencrypted, @encryptor = unencrypted, encryptor
+      validate
     end
 
     def body
-      @encryptor.encrypt(message.body)
+      @encryptor.encrypt(unencrypted.body)
     end
 
     private
 
-    attr_reader :message
-    MESSAGE_FIELDS = [:subject, :from, :to, :body]
-    (MESSAGE_FIELDS - [:body]).each {|f| delegate f, to: :message }
+    attr_reader :unencrypted
 
-    def validate_message
-      unless MESSAGE_FIELDS.all? { |f| message.respond_to?(f)}
-        error_message = "Invalid Message: #{message}.\n#{MESSAGE_FIELDS} required"
-
-        raise ArgumentError.new(error_message)
-      end
+    def validate
+      raise_error unless FIELDS.all? { |f| unencrypted.respond_to?(f)}
     end
+
+    def raise_error
+      raise ArgumentError.new <<-ERROR.gsub(/^\s*/, "")
+        Invalid Message: #{unencrypted}
+        #{FIELDS} required"
+        ERROR
+    end
+
   end
 end

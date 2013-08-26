@@ -40,13 +40,12 @@ describe "Functional" do
     end
 
     specify do
-      expected = {from: "from",
-                  to: recipient_email,
-                  body: encrypted_body,
-                  subject: "Subject line"
+      expected = {
+        from:    "from",
+        to:      recipient_email,
+        body:    encrypted_body,
+        subject: "Subject line"
       }
-
-
 
       SecureMessage.deliver message, transport: transport
     end
