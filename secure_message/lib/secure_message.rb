@@ -6,54 +6,44 @@ require "mail"
 require "secure_message/version"
 require "secure_message/receiver"
 require "secure_message/dao"
+require "secure_message/email_transport"
 
-class SecureMessage
-  include Virtus
-
-  class EmailTransport
-    def deliver params
-      mail = Mail.new do
-        from    params[:from]
-        to      params[:to]
-        #subject 'This is a test email'
-        body    params[:body]
-      end
-
-      mail.deliver!
-    end
-  end
-
-  attribute :dao
-  attribute :message
-  attribute :transport
-
+module SecureMessage
   def self.deliver params
     params.fetch :message #ensure we have a message
 
     params[:transport] ||= SecureMessage::EmailTransport.new
     params[:dao]       ||= SecureMessage::Dao.new
 
-    new(params).deliver
+    Message.new(params).deliver
   end
 
-  def deliver
-    params = {from: message.from, to:   message.to, body: encrypted}
+  class Message
+    include Virtus
 
-    @transport.deliver params
-  end
+    attribute :dao
+    attribute :message
+    attribute :transport
 
-  private
+    def deliver
+      params = {from: message.from, to:   message.to, body: encrypted}
 
-  def encrypted
-    recipient.encrypt(message.body)
-  end
+      @transport.deliver params
+    end
 
-  def recipient
-    @recipient ||= Receiver.new persisted_user: persisted_user
-  end
+    private
 
-  def persisted_user
-    @persisted_user ||= dao.user_for(message.to)
+    def encrypted
+      recipient.encrypt(message.body)
+    end
+
+    def recipient
+      @recipient ||= Receiver.new persisted_user: persisted_user
+    end
+
+    def persisted_user
+      @persisted_user ||= dao.user_for(message.to)
+    end
   end
 end
 
