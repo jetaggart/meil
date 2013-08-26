@@ -1,11 +1,11 @@
 module SecureMessage
   class EmailTransport
-    def deliver params
+    def deliver message
       mail = Mail.new do
-        from    params[:from]
-        to      params[:to]
+        from    message.from
+        to      message.to
+        body    message.body
         #subject 'This is a test email'
-        body    params[:body]
       end
 
       mail.deliver!
