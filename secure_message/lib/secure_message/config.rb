@@ -14,7 +14,7 @@ module SecureMessage::Config
     @@persistence = type 
     check_config!
 
-    file = "secure_message/persistence_adapters/#{type}.rb"
+    file = "secure_message/adapters/#{type}.rb"
 
     force_reload ? load(file) : require(file)
   end
