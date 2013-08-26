@@ -8,7 +8,7 @@ module SecureMessage
   extend SecureMessage::Config
 
   def self.deliver params
-    check_config
+    check_config!
 
     params.fetch :message #ensure we have a message
 

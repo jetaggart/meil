@@ -7,20 +7,22 @@ module SecureMessage::Config
   @@persistence = nil
 
   def persistence
-    @@persistence || raise_config_error
+    @@persistence || missing_config!
   end
 
   def set_persistence type, force_reload=false
     @@persistence = type 
-    check_config
+    check_config!
 
     file = "secure_message/persistence_adapters/#{type}.rb"
 
     force_reload ? load(file) : require(file)
   end
 
-  def check_config
-    persistence && unsupported_type(@@persistence) unless supported?
+  def check_config!
+    if persistence
+      unsupported_type!(@@persistence) unless supported?
+    end
   end
 
   private
@@ -29,13 +31,14 @@ module SecureMessage::Config
     SUPPORTED_TYPES.include?(@@persistence)
   end
 
-  def raise_config_error
-    message = "Need to set a value for SecureMessage.persistence"
-    message << "\nSupported types are: #{SUPPORTED_TYPES.join(' ')}"
-    raise MissingConfigException.new(message)
+  def missing_config!
+    raise MissingConfigException.new <<-MESSAGE.gsub(/^\s*/,"")
+      Need to set a value for SecureMessage.persistence
+      Supported types are: #{SUPPORTED_TYPES.join}
+    MESSAGE
   end
 
-  def unsupported_type type
+  def unsupported_type! type
     message = "Unsupported persistence type: #{type}"
     raise UnsupportedPersistenceTypeException.new(message)
   end
