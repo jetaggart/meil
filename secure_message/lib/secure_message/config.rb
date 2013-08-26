@@ -4,19 +4,23 @@ module SecureMessage::Config
   MissingConfigException              = Class.new SecureMessageException
   UnsupportedPersistenceTypeException = Class.new SecureMessageException
 
+  @@persistence = nil
 
   def persistence
     @@persistence || raise_config_error
   end
 
   def set_persistence type, force_reload=false
-    unsupported_type(type) unless SUPPORTED_TYPES.include?(type)
-
     @@persistence = type 
+    check_config
 
     file = "secure_message/persistence_adapters/#{type}.rb"
 
     force_reload ? load(file) : require(file)
+  end
+
+  def check_config
+    persistence && unsupported_type(@@persistence) unless SUPPORTED_TYPES.include?(@@persistence)
   end
 
   private

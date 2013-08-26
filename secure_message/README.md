@@ -5,7 +5,15 @@ SecureMessage
 Enable sending of encrypted (email) messages to and from previously saved
 users.
 
+Gemfile
+
 ```ruby
+gem 'secure_message'
+```
+
+```ruby
+require 'secure_message'
+SecureMessage.set_persistence :active_record
 
 SecureMessage.deliver(
   from: "from@example.com",

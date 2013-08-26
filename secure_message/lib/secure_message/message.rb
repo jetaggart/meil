@@ -6,13 +6,27 @@ module SecureMessage
     attribute :message
     attribute :transport
 
+    def initialize attributes
+      validate_message attributes.fetch(:message)
+
+      super
+    end
+
     def deliver
-      params = {from: message.from, to:   message.to, body: encrypted}
+      params = {to:   message.to, 
+                from: message.from, 
+                body: encrypted}
 
       @transport.deliver params
     end
 
     private
+
+    def validate_message message
+      unless [:from, :to, :body].all? { |f| message.respond_to?(f)}
+        raise ArgumentError.new("Invalid Message: #{message}.\nbody, from, and to required")
+      end
+    end
 
     def encrypted
       recipient.encrypt(message.body)
