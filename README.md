@@ -2,7 +2,7 @@ Introduction
 ============
 
 Build a simple secure means of communication on top of open standards. Initially,
-we're focusing on private messaging (e.g. email) and social status updates (e.g.
+we're focusing on private messaging (e.g. email with encryption) and social status updates (e.g.
 group emails/pump.io).
 
 Initially email will be the base protocol, with PGP encryption as a
