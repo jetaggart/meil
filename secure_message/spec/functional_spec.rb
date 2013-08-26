@@ -19,10 +19,24 @@ describe "Functional" do
     SecureMessage::ActiveRecord::UserPersistence.destroy_all
   end
 
+  def set_smtp_settings
+    config = YAML::load(File.open('spec/smtp_settings.yml'))
+
+    config["authentication"] = config["authentication"].to_sym
+    debugger
+    Mail.delivery_method.settings = config
+  end
+
   context "happy path" do
     before do
       SecureMessage::ActiveRecord::UserPersistence.
         create({email: recipient_email, pgp_public_key: "some key"})
+
+      if ENV["SEND_EMAIL"]
+        set_smtp_settings
+      else
+        Mail::Message.any_instance.should_receive(:deliver!)
+      end
     end
 
     specify do
@@ -31,7 +45,7 @@ describe "Functional" do
                   body: encrypted_body}
 
 
-      Mail::Message.any_instance.should_receive(:deliver!)
+
       SecureMessage.deliver message, transport: transport
     end
   end

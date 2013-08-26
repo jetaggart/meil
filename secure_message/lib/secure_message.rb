@@ -1,12 +1,10 @@
 require 'active_support/core_ext/module/delegation'
 require "virtus"
 require "mail"
-require 'ruby-debug'
+require 'ruby-debug' if ENV["MRI_RSPEC_SUITE"]
 
-lib = File.dirname __FILE__
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-files = Dir.glob(File.join lib, "secure_message/**/*.rb")
-files.each{|f| require f }
+files = Dir.glob("lib/secure_message/**/*.rb")
+files.each{|f| require File.expand_path(f) }
 
 
 module SecureMessage
