@@ -9,7 +9,7 @@ module SecureMessage::Config
     @@persistence || raise_config_error
   end
 
-  def set_persistence type, force_reload
+  def set_persistence type, force_reload=false
     unsupported_type(type) unless SUPPORTED_TYPES.include?(type)
 
     @@persistence = type 
