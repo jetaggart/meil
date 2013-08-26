@@ -1,5 +1,3 @@
-#This file is dynamically loaded, only if
-#ActiveRecord is selected as the persistence type
 require 'active_record'
 require 'yaml'
 require 'sqlite3'
