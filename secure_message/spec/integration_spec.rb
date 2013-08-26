@@ -17,8 +17,7 @@ describe "Functional" do
 
 
   before :all do
-    load 'db/connection.rb'
-
+    SecureMessage.set_persistence(:active_record, true)
     SecureMessage::UserPersistence.destroy_all
   end
 
