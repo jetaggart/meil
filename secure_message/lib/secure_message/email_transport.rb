@@ -5,7 +5,7 @@ module SecureMessage
         from    message.from
         to      message.to
         body    message.body
-        #subject 'This is a test email'
+        subject message.subject
       end
 
       mail.deliver!

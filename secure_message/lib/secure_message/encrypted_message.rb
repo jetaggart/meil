@@ -6,17 +6,20 @@ module SecureMessage
     end
 
     def body
-      @encryptor.encrypt(@message.body)
+      @encryptor.encrypt(message.body)
     end
 
     private
 
     attr_reader :message
-    delegate :to, :from, to: :message
+    MESSAGE_FIELDS = [:subject, :from, :to, :body]
+    (MESSAGE_FIELDS - [:body]).each {|f| delegate f, to: :message }
 
     def validate_message
-      unless [:from, :to, :body].all? { |f| @message.respond_to?(f)}
-        raise ArgumentError.new("Invalid Message: #{@message}.\nbody, from, and to required")
+      unless MESSAGE_FIELDS.all? { |f| message.respond_to?(f)}
+        error_message = "Invalid Message: #{message}.\n#{MESSAGE_FIELDS} required"
+
+        raise ArgumentError.new(error_message)
       end
     end
   end

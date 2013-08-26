@@ -5,7 +5,8 @@ describe "Functional" do
     double 'message',
       from: 'from',
       to: recipient_email,
-      body: "Unencrypted message"
+      body: "Unencrypted message",
+      subject: "Subject line"
   end
 
   let(:recipient_email) { "mark@example.com" }
@@ -23,7 +24,6 @@ describe "Functional" do
     config = YAML::load(File.open('spec/smtp_settings.yml'))
 
     config["authentication"] = config["authentication"].to_sym
-    debugger
     Mail.delivery_method.settings = config
   end
 
@@ -42,7 +42,9 @@ describe "Functional" do
     specify do
       expected = {from: "from",
                   to: recipient_email,
-                  body: encrypted_body}
+                  body: encrypted_body,
+                  subject: "Subject line"
+      }
 
 
 
