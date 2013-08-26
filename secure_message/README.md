@@ -24,4 +24,4 @@ Persistence
 Default is that user information is persisted in an ActiveRecord 
 `SecureMessage::UserPersistence` table: `user_persistences`
 
-Local user(s) will can have their private keys persisted too.
+Local user(s) will have their private keys persisted too.
