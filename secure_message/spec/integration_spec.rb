@@ -15,7 +15,6 @@ describe "Functional" do
     "===BEGIN ENCRYPTED MESSAGE===\nUnencrypted message\n===END ENCRYPTED MESSAGE===\n"
   end
 
-
   before :all do
     SecureMessage.set_persistence(:active_record, true)
     SecureMessage::UserPersistence.destroy_all

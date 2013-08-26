@@ -20,10 +20,14 @@ module SecureMessage::Config
   end
 
   def check_config
-    persistence && unsupported_type(@@persistence) unless SUPPORTED_TYPES.include?(@@persistence)
+    persistence && unsupported_type(@@persistence) unless supported?
   end
 
   private
+
+  def supported?
+    SUPPORTED_TYPES.include?(@@persistence)
+  end
 
   def raise_config_error
     message = "Need to set a value for SecureMessage.persistence"
