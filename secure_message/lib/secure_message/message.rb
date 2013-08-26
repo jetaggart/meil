@@ -19,7 +19,7 @@ module SecureMessage
     end
 
     def recipient
-      @recipient ||= Receiver.new persisted_user: persisted_user
+      @recipient ||= Recipient.new persisted_user: persisted_user
     end
 
     def persisted_user

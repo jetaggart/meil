@@ -1,5 +1,5 @@
 module SecureMessage
-  class Receiver
+  class Recipient
     include Virtus
     attribute :persisted_user
 

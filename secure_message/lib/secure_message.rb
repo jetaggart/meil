@@ -7,7 +7,7 @@ require "secure_message/config"
 require "secure_message/dao"
 require "secure_message/encryption"
 require "secure_message/message"
-require "secure_message/receiver"
+require "secure_message/recipient"
 require "secure_message/email_transport"
 
 module SecureMessage
