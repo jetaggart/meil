@@ -1,11 +1,11 @@
 module CLI
   class Client
-    def initialize(mail_client)
-      @mail_client = mail_client
+    def initialize(message_sender)
+      @mail_client = message_sender
     end
 
     def send_mail(*args)
-      mail_client.send_mail(*args)
+      message_sender.send_message(*args)
     end
 
     private

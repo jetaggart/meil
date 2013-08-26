@@ -6,11 +6,13 @@ module CLI
 
     it "takes the arguments and sends a message" do
       cli = Client.new(mail_client)
-      cli.send_mail(from: "jeff@jetaggart.com",
-                    to: "john@smith.com",
-                    body: "This is a mail message")
 
-      expect(mail_client).to have_received(:send_mail).with(from: "jeff@jetaggart.com",
+      cli.send_message(from: "jeff@jetaggart.com",
+                       to: "john@smith.com",
+                       body: "This is a mail message")
+
+
+      expect(mail_client).to have_received(:send).with(from: "jeff@jetaggart.com",
                                                             to: "john@smith.com",
                                                             body: "This is a mail message")
     end
