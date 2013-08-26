@@ -16,11 +16,11 @@ describe "Functional" do
   end
 
   before :all do
-    SecureMessage::UserPersistence.destroy_all
+    SecureMessage::ActiveRecord::UserPersistence.destroy_all
   end
 
   before do
-    SecureMessage::UserPersistence.
+    SecureMessage::ActiveRecord::UserPersistence.
       create({email: recipient_email, pgp_public_key: "some key"})
   end
 

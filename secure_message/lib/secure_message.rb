@@ -18,7 +18,7 @@ module SecureMessage
   def self.deliver message, options={}
     options[:message] = message
     options[:transport] ||= SecureMessage::EmailTransport.new
-    options[:dao]       ||= SecureMessage::Dao.new
+    options[:dao]       ||= SecureMessage::ActiveRecord::Dao.new
 
     SecureMessage::Message.new(options).deliver
   end

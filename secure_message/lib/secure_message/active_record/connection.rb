@@ -7,5 +7,3 @@ require 'sqlite3'
 dbconfig = YAML::load(File.open('db/database.yml'))
 ActiveRecord::Base.establish_connection(dbconfig)
 
-class SecureMessage::UserPersistence < ActiveRecord::Base
-end
