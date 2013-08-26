@@ -17,8 +17,7 @@ describe "Functional" do
 
 
   before :all do
-    SecureMessage.set_persistence(:active_record, true)
-    SecureMessage::Dao.default_klass.destroy_all
+    SecureMessage::UserPersistence.destroy_all
   end
 
   before do
@@ -33,6 +32,7 @@ describe "Functional" do
 
 
     transport.should_receive(:deliver).with expected
-    SecureMessage.deliver message: message, transport: transport
+
+    SecureMessage.deliver message, transport: transport
   end
 end

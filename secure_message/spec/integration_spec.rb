@@ -16,7 +16,6 @@ describe "Functional" do
   end
 
   before :all do
-    SecureMessage.set_persistence(:active_record, true)
     SecureMessage::UserPersistence.destroy_all
   end
 
@@ -32,6 +31,6 @@ describe "Functional" do
 
 
     Mail::Message.any_instance.should_receive(:deliver!)
-    SecureMessage.deliver message: message, transport: transport
+    SecureMessage.deliver message, transport: transport
   end
 end

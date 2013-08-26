@@ -12,19 +12,14 @@ require "mail"
 require 'ruby-debug'
 
 module SecureMessage
-  files = Dir.glob(File.join secure_message_gem_path, "secure_message/*.rb")
+  files = Dir.glob(File.join secure_message_gem_path, "secure_message/**/*.rb")
   files.each{|f| require f }
 
-  extend SecureMessage::Config
+  def self.deliver message, options={}
+    options[:message] = message
+    options[:transport] ||= SecureMessage::EmailTransport.new
+    options[:dao]       ||= SecureMessage::Dao.new
 
-  def self.deliver params
-    check_config!
-
-    params.fetch :message #ensure we have a message
-
-    params[:transport] ||= SecureMessage::EmailTransport.new
-    params[:dao]       ||= SecureMessage::Dao.new
-
-    SecureMessage::Message.new(params).deliver
+    SecureMessage::Message.new(options).deliver
   end
 end
