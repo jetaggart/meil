@@ -37,7 +37,13 @@ module SecureMessage
     end
 
     def persisted_user
-      @persisted_user ||= dao.user_for(message.to)
+      @persisted_user = dao.user_for(message.to) || raise_not_found
+    end
+
+    private
+
+    def raise_not_found
+      raise SecureMessage::UserNotFound.new("User for recipient #{message.to} not found")
     end
   end
 end

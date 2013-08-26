@@ -19,12 +19,12 @@ describe "Functional" do
     SecureMessage::ActiveRecord::UserPersistence.destroy_all
   end
 
-  before do
-    SecureMessage::ActiveRecord::UserPersistence.
-      create({email: recipient_email, pgp_public_key: "some key"})
-  end
+  specify "happy path" do
+    before do
+      SecureMessage::ActiveRecord::UserPersistence.
+        create({email: recipient_email, pgp_public_key: "some key"})
+    end
 
-  it do
     expected = {from: "from",
                 to: recipient_email,
                 body: encrypted_body}
@@ -32,5 +32,13 @@ describe "Functional" do
 
     Mail::Message.any_instance.should_receive(:deliver!)
     SecureMessage.deliver message, transport: transport
+  end
+
+  context "User not found" do
+    let(:recipient_email) { "not-found@example.com" }
+    specify do
+      expect { SecureMessage.deliver message, transport: transport }.
+        to raise_error SecureMessage::UserNotFound
+    end
   end
 end
