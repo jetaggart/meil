@@ -3,16 +3,13 @@ require "virtus"
 require "mail"
 require 'ruby-debug'
 
-def secure_message_gem_path
-  File.dirname __FILE__
-end
+lib = File.dirname __FILE__
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+files = Dir.glob(File.join lib, "secure_message/**/*.rb")
+files.each{|f| require f }
 
-$LOAD_PATH.unshift(secure_message_gem_path) unless $LOAD_PATH.include?(secure_message_gem_path)
 
 module SecureMessage
-  files = Dir.glob(File.join secure_message_gem_path, "secure_message/**/*.rb")
-  files.each{|f| require f }
-
   def self.deliver message, options={}
     SecureMessage::MessageSender.new(message, options).deliver
   end
